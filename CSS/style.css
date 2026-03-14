@@ -1,0 +1,470 @@
+     1	/* Reset and Base Styles */
+     2	* {
+     3	    margin: 0;
+     4	    padding: 0;
+     5	    box-sizing: border-box;
+     6	}
+     7	
+     8	:root {
+     9	    --black: #000000;
+    10	    --green: #00ff48;
+    11	    --sky-blue: #87CEEB;
+    12	    --dark-gray: #1a1a1a;
+    13	    --light-gray: #2a2a2a;
+    14	    --text-gray: #b0b0b0;
+    15	}
+    16	
+    17	body {
+    18	    font-family: 'Inter', sans-serif;
+    19	    background-color: var(--black);
+    20	    color: white;
+    21	    line-height: 1.6;
+    22	    min-height: 100vh;
+    23	    overflow-x: hidden;
+    24	}
+    25	
+    26	.container {
+    27	    max-width: 1200px;
+    28	    margin: 0 auto;
+    29	    padding: 2rem;
+    30	}
+    31	
+    32	/* Header */
+    33	.header {
+    34	    text-align: center;
+    35	    margin-bottom: 3rem;
+    36	    padding: 2rem 0;
+    37	}
+    38	
+    39	.logo {
+    40	    display: flex;
+    41	    align-items: center;
+    42	    justify-content: center;
+    43	    gap: 1rem;
+    44	    margin-bottom: 1rem;
+    45	}
+    46	
+    47	.logo i {
+    48	    font-size: 3rem;
+    49	    color: #0077B5;
+    50	}
+    51	
+    52	.logo h1 {
+    53	    font-size: 2.5rem;
+    54	    font-weight: 700;
+    55	    background: linear-gradient(135deg, var(--green), var(--sky-blue));
+    56	    -webkit-background-clip: text;
+    57	    -webkit-text-fill-color: transparent;
+    58	    background-clip: text;
+    59	}
+    60	
+    61	.subtitle {
+    62	    color: var(--text-gray);
+    63	    font-size: 1.1rem;
+    64	    font-weight: 300;
+    65	}
+    66	
+    67	/* Upload Section */
+    68	.upload-section {
+    69	    margin-bottom: 3rem;
+    70	}
+    71	
+    72	.upload-section h2 {
+    73	    text-align: center;
+    74	    font-size: 1.8rem;
+    75	    margin-bottom: 2rem;
+    76	    color: var(--green);
+    77	}
+    78	
+    79	.upload-section {
+    80	    display: grid;
+    81	    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    82	    gap: 2rem;
+    83	    margin-top: 2rem;
+    84	}
+    85	
+    86	.upload-card {
+    87	    background: var(--dark-gray);
+    88	    border: 2px solid var(--light-gray);
+    89	    border-radius: 15px;
+    90	    padding: 2rem;
+    91	    text-align: center;
+    92	    transition: all 0.3s ease;
+    93	    position: relative;
+    94	}
+    95	
+    96	.upload-card:hover {
+    97	    border-color: var(--green);
+    98	    transform: translateY(-5px);
+    99	    box-shadow: 0 10px 30px rgba(0, 255, 72, 0.1);
+   100	}
+   101	
+   102	.upload-card.uploaded {
+   103	    border-color: var(--green);
+   104	    background: linear-gradient(135deg, var(--dark-gray), rgba(0, 255, 72, 0.05));
+   105	}
+   106	
+   107	.upload-icon {
+   108	    font-size: 3rem;
+   109	    color: var(--green);
+   110	    margin-bottom: 1rem;
+   111	}
+   112	
+   113	.upload-card h3 {
+   114	    font-size: 1.3rem;
+   115	    margin-bottom: 0.5rem;
+   116	    color: white;
+   117	}
+   118	
+   119	.upload-card p {
+   120	    color: var(--text-gray);
+   121	    font-size: 0.9rem;
+   122	    margin-bottom: 1.5rem;
+   123	}
+   124	
+   125	.file-input {
+   126	    display: none;
+   127	}
+   128	
+   129	.upload-btn {
+   130	    display: inline-flex;
+   131	    align-items: center;
+   132	    gap: 0.5rem;
+   133	    background: var(--green);
+   134	    color: var(--black);
+   135	    padding: 0.8rem 2rem;
+   136	    border-radius: 8px;
+   137	    font-weight: 600;
+   138	    cursor: pointer;
+   139	    transition: all 0.3s ease;
+   140	    border: none;
+   141	}
+   142	
+   143	.upload-btn:hover {
+   144	    background: var(--sky-blue);
+   145	    transform: scale(1.05);
+   146	}
+   147	
+   148	.file-preview {
+   149	    margin-top: 1rem;
+   150	    padding: 0.8rem;
+   151	    background: var(--light-gray);
+   152	    border-radius: 8px;
+   153	    display: none;
+   154	    align-items: center;
+   155	    gap: 0.5rem;
+   156	    color: var(--green);
+   157	    font-size: 0.9rem;
+   158	}
+   159	
+   160	.file-preview.active {
+   161	    display: flex;
+   162	}
+   163	
+   164	.file-preview i {
+   165	    color: var(--green);
+   166	}
+   167	
+   168	.file-preview img {
+   169	    max-width: 100%;
+   170	    max-height: 150px;
+   171	    border-radius: 8px;
+   172	    margin-top: 0.5rem;
+   173	}
+   174	
+   175	/* Audit Section */
+   176	.audit-section {
+   177	    text-align: center;
+   178	    margin: 4rem 0;
+   179	}
+   180	
+   181	.audit-btn {
+   182	    background: linear-gradient(135deg, var(--green), var(--sky-blue));
+   183	    color: var(--black);
+   184	    font-size: 1.5rem;
+   185	    font-weight: 700;
+   186	    padding: 1.5rem 4rem;
+   187	    border: none;
+   188	    border-radius: 50px;
+   189	    cursor: pointer;
+   190	    transition: all 0.3s ease;
+   191	    display: inline-flex;
+   192	    align-items: center;
+   193	    gap: 1rem;
+   194	    box-shadow: 0 10px 40px rgba(0, 255, 72, 0.3);
+   195	}
+   196	
+   197	.audit-btn:disabled {
+   198	    background: var(--light-gray);
+   199	    color: var(--text-gray);
+   200	    cursor: not-allowed;
+   201	    box-shadow: none;
+   202	}
+   203	
+   204	.audit-btn:not(:disabled):hover {
+   205	    transform: scale(1.08);
+   206	    box-shadow: 0 15px 50px rgba(0, 255, 72, 0.5);
+   207	}
+   208	
+   209	.audit-btn:not(:disabled) i {
+   210	    display: none;
+   211	}
+   212	
+   213	.audit-info {
+   214	    margin-top: 1rem;
+   215	    color: var(--text-gray);
+   216	    font-size: 0.9rem;
+   217	}
+   218	
+   219	/* Loading State */
+   220	.loading-state {
+   221	    text-align: center;
+   222	    padding: 4rem 2rem;
+   223	}
+   224	
+   225	.spinner {
+   226	    width: 60px;
+   227	    height: 60px;
+   228	    border: 4px solid var(--light-gray);
+   229	    border-top: 4px solid var(--green);
+   230	    border-radius: 50%;
+   231	    animation: spin 1s linear infinite;
+   232	    margin: 0 auto 2rem;
+   233	}
+   234	
+   235	@keyframes spin {
+   236	    0% { transform: rotate(0deg); }
+   237	    100% { transform: rotate(360deg); }
+   238	}
+   239	
+   240	.loading-state p {
+   241	    font-size: 1.2rem;
+   242	    color: var(--green);
+   243	    margin-bottom: 0.5rem;
+   244	}
+   245	
+   246	.loading-details {
+   247	    color: var(--text-gray);
+   248	    font-size: 0.9rem;
+   249	}
+   250	
+   251	/* Results Section */
+   252	.results-section {
+   253	    margin-top: 4rem;
+   254	    animation: fadeIn 0.5s ease;
+   255	}
+   256	
+   257	@keyframes fadeIn {
+   258	    from { opacity: 0; transform: translateY(20px); }
+   259	    to { opacity: 1; transform: translateY(0); }
+   260	}
+   261	
+   262	.results-header {
+   263	    text-align: center;
+   264	    margin-bottom: 3rem;
+   265	}
+   266	
+   267	.results-header h2 {
+   268	    font-size: 2.5rem;
+   269	    color: var(--green);
+   270	    margin-bottom: 1rem;
+   271	}
+   272	
+   273	/* Score Card */
+   274	.score-card {
+   275	    background: linear-gradient(135deg, var(--dark-gray), var(--light-gray));
+   276	    border: 2px solid var(--green);
+   277	    border-radius: 20px;
+   278	    padding: 3rem;
+   279	    text-align: center;
+   280	    margin-bottom: 3rem;
+   281	    box-shadow: 0 20px 60px rgba(0, 255, 72, 0.2);
+   282	}
+   283	
+   284	.score-value {
+   285	    font-size: 5rem;
+   286	    font-weight: 700;
+   287	    background: linear-gradient(135deg, var(--green), var(--sky-blue));
+   288	    -webkit-background-clip: text;
+   289	    -webkit-text-fill-color: transparent;
+   290	    background-clip: text;
+   291	    line-height: 1;
+   292	    margin-bottom: 0.5rem;
+   293	}
+   294	
+   295	.score-label {
+   296	    font-size: 1.2rem;
+   297	    color: var(--text-gray);
+   298	}
+   299	
+   300	/* Diagram Section */
+   301	.diagram-section {
+   302	    background: var(--dark-gray);
+   303	    border: 2px solid var(--light-gray);
+   304	    border-radius: 20px;
+   305	    padding: 2rem;
+   306	    margin-bottom: 3rem;
+   307	}
+   308	
+   309	.diagram-section h3 {
+   310	    color: var(--green);
+   311	    font-size: 1.8rem;
+   312	    margin-bottom: 2rem;
+   313	    text-align: center;
+   314	}
+   315	
+   316	.chart-container {
+   317	    height: 400px;
+   318	    position: relative;
+   319	}
+   320	
+   321	/* Analysis Sections */
+   322	.analysis-grid {
+   323	    display: grid;
+   324	    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+   325	    gap: 2rem;
+   326	    margin-bottom: 3rem;
+   327	}
+   328	
+   329	.analysis-card {
+   330	    background: var(--dark-gray);
+   331	    border: 2px solid var(--light-gray);
+   332	    border-radius: 15px;
+   333	    padding: 2rem;
+   334	    transition: all 0.3s ease;
+   335	}
+   336	
+   337	.analysis-card:hover {
+   338	    border-color: var(--green);
+   339	    transform: translateY(-5px);
+   340	}
+   341	
+   342	.analysis-card h3 {
+   343	    color: var(--green);
+   344	    font-size: 1.5rem;
+   345	    margin-bottom: 1.5rem;
+   346	    display: flex;
+   347	    align-items: center;
+   348	    gap: 0.5rem;
+   349	}
+   350	
+   351	.analysis-card h3 i {
+   352	    color: var(--sky-blue);
+   353	}
+   354	
+   355	.analysis-item {
+   356	    background: var(--light-gray);
+   357	    padding: 1rem;
+   358	    border-radius: 10px;
+   359	    margin-bottom: 1rem;
+   360	    border-left: 4px solid var(--green);
+   361	}
+   362	
+   363	.analysis-item h4 {
+   364	    color: white;
+   365	    font-size: 1.1rem;
+   366	    margin-bottom: 0.5rem;
+   367	}
+   368	
+   369	.analysis-item p {
+   370	    color: var(--text-gray);
+   371	    font-size: 0.95rem;
+   372	    line-height: 1.6;
+   373	}
+   374	
+   375	.error-item {
+   376	    border-left-color: #ff4444;
+   377	}
+   378	
+   379	.improvement-item {
+   380	    border-left-color: var(--sky-blue);
+   381	}
+   382	
+   383	.recommendation-item {
+   384	    border-left-color: var(--green);
+   385	}
+   386	
+   387	/* Recommendations Section */
+   388	.recommendations-section {
+   389	    background: var(--dark-gray);
+   390	    border: 2px solid var(--green);
+   391	    border-radius: 20px;
+   392	    padding: 2rem;
+   393	    margin-bottom: 3rem;
+   394	}
+   395	
+   396	.recommendations-section h3 {
+   397	    color: var(--green);
+   398	    font-size: 1.8rem;
+   399	    margin-bottom: 2rem;
+   400	    text-align: center;
+   401	}
+   402	
+   403	.recommendation-card {
+   404	    background: var(--light-gray);
+   405	    border-radius: 15px;
+   406	    padding: 1.5rem;
+   407	    margin-bottom: 1.5rem;
+   408	    border-left: 5px solid var(--green);
+   409	}
+   410	
+   411	.recommendation-card h4 {
+   412	    color: var(--sky-blue);
+   413	    font-size: 1.3rem;
+   414	    margin-bottom: 1rem;
+   415	}
+   416	
+   417	.recommendation-before {
+   418	    background: rgba(255, 68, 68, 0.1);
+   419	    padding: 1rem;
+   420	    border-radius: 8px;
+   421	    margin-bottom: 1rem;
+   422	}
+   423	
+   424	.recommendation-before strong {
+   425	    color: #ff4444;
+   426	}
+   427	
+   428	.recommendation-after {
+   429	    background: rgba(0, 255, 72, 0.1);
+   430	    padding: 1rem;
+   431	    border-radius: 8px;
+   432	}
+   433	
+   434	.recommendation-after strong {
+   435	    color: var(--green);
+   436	}
+   437	
+   438	/* Footer */
+   439	.footer {
+   440	    text-align: center;
+   441	    padding: 2rem;
+   442	    color: var(--text-gray);
+   443	    border-top: 1px solid var(--light-gray);
+   444	    margin-top: 4rem;
+   445	}
+   446	
+   447	/* Responsive Design */
+   448	@media (max-width: 768px) {
+   449	    .logo h1 {
+   450	        font-size: 1.8rem;
+   451	    }
+   452	    
+   453	    .upload-section {
+   454	        grid-template-columns: 1fr;
+   455	    }
+   456	    
+   457	    .analysis-grid {
+   458	        grid-template-columns: 1fr;
+   459	    }
+   460	    
+   461	    .audit-btn {
+   462	        font-size: 1.2rem;
+   463	        padding: 1.2rem 2.5rem;
+   464	    }
+   465	    
+   466	    .score-value {
+   467	        font-size: 3.5rem;
+   468	    }
+   469	}
+   470	

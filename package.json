@@ -1,0 +1,14 @@
+{
+  "name": "linkedin-profile-audit",
+  "version": "1.0.0",
+  "description": "LinkedIn Profile Audit Tool with Google AI",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }

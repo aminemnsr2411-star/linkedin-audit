@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Profile Audit - Analyse IA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fab fa-linkedin"></i>
+                <h1>LinkedIn Profile Audit</h1>
+            </div>
+            <p class="subtitle">Analyse IA de votre profil LinkedIn</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2>Étape 1 : Téléchargez vos fichiers</h2>
+            
+            <!-- PDF Upload -->
+            <div class="upload-card">
+                <div class="upload-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>PDF du profil LinkedIn</h3>
+                <p>Exportez votre profil LinkedIn en PDF</p>
+                <input type="file" id="pdfInput" accept=".pdf" class="file-input">
+                <label for="pdfInput" class="upload-btn">
+                    <i class="fas fa-upload"></i> Choisir le PDF
+                </label>
+                <div id="pdfPreview" class="file-preview"></div>
+            </div>
+
+            <!-- Photo Upload -->
+            <div class="upload-card">
+                <div class="upload-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h3>Photo de profil</h3>
+                <p>Votre photo de profil LinkedIn</p>
+                <input type="file" id="photoInput" accept="image/*" class="file-input">
+                <label for="photoInput" class="upload-btn">
+                    <i class="fas fa-upload"></i> Choisir la photo
+                </label>
+                <div id="photoPreview" class="file-preview"></div>
+            </div>
+
+            <!-- Banner Upload -->
+            <div class="upload-card">
+                <div class="upload-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Bannière de profil</h3>
+                <p>Votre bannière LinkedIn</p>
+                <input type="file" id="bannerInput" accept="image/*" class="file-input">
+                <label for="bannerInput" class="upload-btn">
+                    <i class="fas fa-upload"></i> Choisir la bannière
+                </label>
+                <div id="bannerPreview" class="file-preview"></div>
+            </div>
+        </section>
+
+        <!-- Audit Button -->
+        <section class="audit-section">
+            <button id="auditBtn" class="audit-btn" disabled>
+                <i class="fas fa-lock"></i> AUDIT
+            </button>
+            <p class="audit-info">Téléchargez tous les fichiers pour débloquer l'audit</p>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyse en cours avec Google AI...</p>
+            <p class="loading-details">Extraction et analyse des données de votre profil</p>
+        </div>
+
+        <!-- Results Section (Hidden by default) -->
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <!-- Results will be injected here by JavaScript -->
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>Propulsé par Google AI • Analyse de profil LinkedIn</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
