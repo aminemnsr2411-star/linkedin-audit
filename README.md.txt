@@ -77,7 +77,7 @@
     77	2. Cliquez sur **"Add a variable"**
     78	3. Ajoutez :
     79	   - **Key** : `GOOGLE_AI_API_KEY`
-    80	   - **Value** : `AIzaSyDsWqEjRFgSJQrdNJr_hC_8x7l4xTrMhkM`
+    80	   - **Value** : `VOTRE_CLÉ_API_GOOGLE``
     81	4. Cliquez sur **"Save"**
     82	5. **Redéployez le site** pour appliquer les changements
     83	
