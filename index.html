@@ -10,7 +10,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
             <div class="logo">
                 <i class="fab fa-linkedin"></i>
@@ -19,11 +18,9 @@
             <p class="subtitle">Analyse IA de votre profil LinkedIn</p>
         </header>
 
-        <!-- Upload Section -->
         <section class="upload-section">
             <h2>Étape 1 : Téléchargez vos fichiers</h2>
             
-            <!-- PDF Upload -->
             <div class="upload-card">
                 <div class="upload-icon">
                     <i class="fas fa-file-pdf"></i>
@@ -37,7 +34,6 @@
                 <div id="pdfPreview" class="file-preview"></div>
             </div>
 
-            <!-- Photo Upload -->
             <div class="upload-card">
                 <div class="upload-icon">
                     <i class="fas fa-user-circle"></i>
@@ -51,7 +47,6 @@
                 <div id="photoPreview" class="file-preview"></div>
             </div>
 
-            <!-- Banner Upload -->
             <div class="upload-card">
                 <div class="upload-icon">
                     <i class="fas fa-image"></i>
@@ -66,7 +61,6 @@
             </div>
         </section>
 
-        <!-- Audit Button -->
         <section class="audit-section">
             <button id="auditBtn" class="audit-btn" disabled>
                 <i class="fas fa-lock"></i> AUDIT
@@ -74,16 +68,13 @@
             <p class="audit-info">Téléchargez tous les fichiers pour débloquer l'audit</p>
         </section>
 
-        <!-- Loading State -->
         <div id="loadingState" class="loading-state" style="display: none;">
             <div class="spinner"></div>
             <p>Analyse en cours avec Google AI...</p>
             <p class="loading-details">Extraction et analyse des données de votre profil</p>
         </div>
 
-        <!-- Results Section (Hidden by default) -->
         <section id="resultsSection" class="results-section" style="display: none;">
-            <!-- Results will be injected here by JavaScript -->
         </section>
     </div>
 
