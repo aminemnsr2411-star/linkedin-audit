@@ -4,6 +4,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
 
 exports.handler = async (event, context) => {
+  console.log("=== Function called ===");
+  console.log("Method:", event.httpMethod);
+  console.log("Has API Key:", !!process.env.GOOGLE_AI_API_KEY);
+  
   // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -22,31 +26,57 @@ exports.handler = async (event, context) => {
 
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
+    console.log("ERROR: Method not POST");
     return {
       statusCode: 405,
       headers,
-      body: JSON.stringify({ error: 'Method not allowed' })
+      body: JSON.stringify({ error: 'Method not allowed. Use POST.' })
     };
   }
 
   try {
+    console.log("=== Parsing multipart data ===");
+    
+    // Check if content-type exists
+    if (!event.headers['content-type']) {
+      throw new Error('Missing content-type header');
+    }
+    
     // Parse multipart form data
     const boundary = event.headers['content-type'].split('boundary=')[1];
+    if (!boundary) {
+      throw new Error('Missing boundary in content-type');
+    }
+    
     const parts = parseMultipartFormData(event.body, boundary);
+    console.log("Parsed parts:", parts.length);
     
     // Extract files
     const pdfData = parts.find(p => p.name === 'pdf');
     const photoData = parts.find(p => p.name === 'photo');
     const bannerData = parts.find(p => p.name === 'banner');
 
+    console.log("PDF found:", !!pdfData);
+    console.log("Photo found:", !!photoData);
+    console.log("Banner found:", !!bannerData);
+
     if (!pdfData || !photoData || !bannerData) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Missing required files' })
+        body: JSON.stringify({ 
+          error: 'Missing required files',
+          details: {
+            pdf: !!pdfData,
+            photo: !!photoData,
+            banner: !!bannerData
+          }
+        })
       };
     }
 
+    console.log("=== Calling Google AI ===");
+    
     // Analyze with Google AI
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
@@ -54,37 +84,39 @@ exports.handler = async (event, context) => {
     const photoBase64 = Buffer.from(photoData.data).toString('base64');
     const bannerBase64 = Buffer.from(bannerData.data).toString('base64');
     
+    console.log("Images converted to base64");
+    
     // Create prompt for analysis
-    const prompt = `Tu es un expert en optimisation de profils LinkedIn. Analyse le profil LinkedIn suivant (incluant le PDF du profil, la photo de profil et la bannière) et fournis un audit complet.
+    const prompt = `Tu es un expert en optimisation de profils LinkedIn. Analyse les images de profil LinkedIn suivantes (photo de profil et bannière) et fournis un audit complet.
 
 Fournis ta réponse au format JSON strict suivant:
 {
-  "score": <nombre entre 0 et 100>,
+  "score": 75,
   "categoryScores": {
-    "Photo de profil": <score>,
-    "Bannière": <score>,
-    "Titre": <score>,
-    "Résumé": <score>,
-    "Expériences": <score>,
-    "Compétences": <score>
+    "Photo de profil": 80,
+    "Bannière": 70,
+    "Titre": 75,
+    "Résumé": 75,
+    "Expériences": 70,
+    "Compétences": 80
   },
   "errors": [
     {
-      "title": "Titre de l'erreur",
-      "description": "Description détaillée de l'erreur"
+      "title": "Photo peu professionnelle",
+      "description": "La photo manque de clarté et de professionnalisme"
     }
   ],
   "improvements": [
     {
-      "title": "Axe d'amélioration",
-      "description": "Description de comment améliorer"
+      "title": "Améliorer la bannière",
+      "description": "La bannière devrait refléter votre expertise"
     }
   ],
   "recommendations": [
     {
-      "section": "Nom de la section",
-      "before": "Ce qui est actuellement présent",
-      "after": "Recommandation de remplacement complète et détaillée"
+      "section": "Photo de profil",
+      "before": "Photo actuelle",
+      "after": "Utilisez une photo professionnelle avec un fond neutre, un sourire naturel et une tenue professionnelle"
     }
   ]
 }
@@ -92,13 +124,11 @@ Fournis ta réponse au format JSON strict suivant:
 Analyse les aspects suivants:
 1. Qualité et professionnalisme de la photo de profil
 2. Pertinence et impact de la bannière
-3. Efficacité du titre professionnel
-4. Qualité du résumé/à propos
-5. Présentation des expériences
-6. Liste des compétences
 
-Sois précis, constructif et fournis des recommandations actionnables. Fournis au moins 3 erreurs, 3 axes d'amélioration et 3 recommandations détaillées.`;
+Sois précis, constructif et fournis des recommandations actionnables.`;
 
+    console.log("Sending request to Google AI...");
+    
     const result = await model.generateContent([
       {
         inlineData: {
@@ -115,21 +145,22 @@ Sois précis, constructif et fournis des recommandations actionnables. Fournis a
       prompt
     ]);
 
+    console.log("Got response from Google AI");
+    
     const response = await result.response;
     const text = response.text();
+    
+    console.log("Response text length:", text.length);
     
     // Extract JSON from response
     let analysisData;
     try {
-      // Try to parse as JSON directly
       analysisData = JSON.parse(text);
     } catch (e) {
-      // If not valid JSON, try to extract JSON from markdown code blocks
       const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```([\s\S]*?)```/);
       if (jsonMatch) {
         analysisData = JSON.parse(jsonMatch[1]);
       } else {
-        // Last resort: try to find JSON object in text
         const objectMatch = text.match(/\{[\s\S]*\}/);
         if (objectMatch) {
           analysisData = JSON.parse(objectMatch[0]);
@@ -139,6 +170,8 @@ Sois précis, constructif et fournis des recommandations actionnables. Fournis a
       }
     }
 
+    console.log("=== Success ===");
+    
     return {
       statusCode: 200,
       headers,
@@ -146,13 +179,17 @@ Sois précis, constructif et fournis des recommandations actionnables. Fournis a
     };
 
   } catch (error) {
+    console.error('=== ERROR ===');
     console.error('Error:', error);
+    console.error('Stack:', error.stack);
+    
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({ 
         error: 'Analysis failed', 
-        details: error.message 
+        details: error.message,
+        stack: error.stack
       })
     };
   }
